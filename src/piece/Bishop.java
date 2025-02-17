@@ -11,10 +11,10 @@ public class Bishop extends Piece {
         oggetto bishop, se zero verra ritornato quello bianco altrimenti quello nero, tutto avviene tramite il metodo
          get image creato all interno della classe piece*/
         if (color == GamePanel.WHITE){
-            image = getImage("/res/w-bishop");
+            image = getImage("/piece/w-bishop");
         }
         else {
-            image = getImage("/res/b-bishop");
+            image = getImage("/piece/b-bishop");
         }
     }
 }

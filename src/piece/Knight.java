@@ -10,10 +10,10 @@ public class Knight extends Piece {
         /*condizione che ritorna un file di tipo bianco o nero in base al color impostato atraverso il paramentro
         passato alla creazione dell oggetto knight usando il metodo get image creato all interno della classse piece*/
         if (color == GamePanel.WHITE) {
-            image = getImage("/res/w-knight");
+            image = getImage("/piece/w-knight");
         }
         else{
-            image = getImage("/res/b-knight");
+            image = getImage("/piece/b-knight");
         }
     }
 }

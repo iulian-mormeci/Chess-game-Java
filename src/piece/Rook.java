@@ -12,10 +12,10 @@ public class Rook extends Piece {
         get image creato all interno della classe piece e passando come parametro una stringa contenente il percorso
         dell file*/
         if (color == GamePanel.WHITE){
-            image = getImage("/res/w-rook");
+            image = getImage("/piece/w-rook");
         }
         else {
-            image = getImage("/res/b-rook");
+            image = getImage("/piece/b-rook");
         }
     }
 }

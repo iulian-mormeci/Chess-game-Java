@@ -3,6 +3,7 @@ package piece;
 import main.Board;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -52,6 +53,25 @@ public class Piece {
     public int getY(int row){
         return row * Board.SQUARE_SIZE; /*return della riga in pixel facendo la moltiplicazione della riga per la
         dimensione dello scacchio impostato all interno della classe board*/
+    }
+
+    /*metodo che ritorna la colonna del oggetto e vuole come parametro un int*/
+    public int getCol(int x){
+        return (x + Board.HALF_SQUARE_SIZE) / Board.SQUARE_SIZE;
+    }
+
+    /*metodo che ritorna la riga dell oggetto e vuole come parametro un int*/
+    public int getRow(int y){
+        return (y + Board.HALF_SQUARE_SIZE) / Board.SQUARE_SIZE;
+    }
+
+    /*metodo per inserire i file all interno del jpanel*/
+    public void draw(Graphics2D g2){
+        /*inserimento dei file all interno della tavolo di gioco usando il metodo drawimage che e un metodo astrato
+        di java, passando come parametri l immagine che viene restituita dal metodo get image, la posizione che viene
+         data dagli atributi x e y che all loro interno hanno un chiamata a dei metodi creati da me per avere la
+         posizione in pixel all interno del jpanel*/
+        g2.drawImage(image,x,y,Board.SQUARE_SIZE,Board.SQUARE_SIZE, null);
     }
 
 }
