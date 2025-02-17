@@ -13,6 +13,11 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread; /*creazione di un thread per il loop del gioco*/
     Board board = new Board(); /*instance della classe board che abbiamo creato per disegnare la tavola degli sccachi*/
 
+    /*atributi per la scelta dei colori*/
+    public static final int WHITE = 0;      /*attributo per la scelta del colore bianco con valore int 0*/
+    public static final int BLACK = 1;      /*attributo per la scelta del colore nero con valore int 1*/
+    int currentColor = WHITE;   /*colore di partenza*/
+
     public GamePanel() {
 
         setPreferredSize(new Dimension(WIDTH, HEIGHT)); /*impostazione della dimesione della finestra*/
