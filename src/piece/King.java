@@ -18,4 +18,21 @@ public class King extends Piece{
         }
 
     }
+
+    /*metodo del pezzo re, che andra a ritornare e sovrascrivere il metodo all interno della classe piece se puo o
+    meno muoversi basandosi sui parametri in ingresso */
+    public boolean canMove(int targetCol, int targetRow){
+        /*condizione che richiama il metodo all interno della classe piece per verificare che il giocatore sta
+        andando a posizionare il pezzo all interno della tavola di gioco, se il metodo ritorna true prosegue*/
+        if(isWithInBoard(targetCol, targetRow)){
+            /*condizione che verra eseguita se la precendente e true, questa condizione verifica che il re si sta
+            muovendo soltanto di un quadrato seguendo le regole del gioco, andando a fare il calcolo tra la colonna
+            che si sta scegliendo e la colonna precedente, se la condizione e true ritorna un valore booleano true*/
+            if(Math.abs(targetCol - preCol) + Math.abs(targetRow - preRow) == 1 || Math.abs(targetCol - preCol) * Math.abs(targetRow - preRow) == 1){
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

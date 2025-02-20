@@ -29,6 +29,10 @@ public class GamePanel extends JPanel implements Runnable {
     public static final int BLACK = 1;      /*attributo per la scelta del colore nero con valore int 1*/
     int currentColor = WHITE;   /*colore di partenza*/
 
+    /*atributi di tipo booleano*/
+    boolean canMove;
+    boolean validSquare;
+
     public GamePanel() {
 
         setPreferredSize(new Dimension(WIDTH, HEIGHT)); /*impostazione della dimesione della finestra*/
@@ -148,6 +152,7 @@ public class GamePanel extends JPanel implements Runnable {
                      activeP verra assegnato il piece*/
                     if(piece.color == currentColor && piece.col == mouse.x/Board.SQUARE_SIZE && piece.row == mouse.y/Board.SQUARE_SIZE){
 
+                        /*assegnazione del pezzo alla variabile activeP che andra a contenere l oggetto */
                         activeP = piece;
 
                     }
@@ -160,9 +165,36 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
         }
+
+        /*condizione se il player rilascia il tasto destro del mouse*/
+        if (mouse.pressed == false){
+            /*se l atributo activeP non e nullo e quindi ha all interno un oggetto la condizione e vera e si prosegue*/
+            if(activeP != null){
+                /*se l atributo validsquare e true si prosegue perche significa che il giocatore ha scelto un
+                quadrato valido per spostare il pezzo scelto*/
+                if(validSquare){
+                    /*se ovviamente il quadrato e valido andiamo ad aggiornare la sua posizione*/
+                    activeP.updatePosition();
+                }
+                else{
+                    /*se il quadrato scelto al momento del rilascio del mouse non e valido andiamo a resetare la
+                    posizione del atributo activeP che e una un atributo che va a tenere temporaneamente l oggetto
+                    che andiamo a selezionare con il mouse*/
+                    activeP.resetPosition();
+                    /*nel momento che non teniamo premuto il tasto del mouse andiamo a rendere nuovamente l atributo
+                    activeP nullo per poter andare a selezionare un altro pezzo*/
+                    activeP = null;
+                }
+            }
+        }
+
     }
 
     private void simulate(){
+
+        canMove = false;
+        validSquare = false;
+
         /*se un pezzo viene tenuto e non rilasciato verra aggiornata la sua posizione per avere a video gli
         spostamenti*/
         activeP.x = mouse.x -  Board.HALF_SQUARE_SIZE;    /*aggiornamento della posizione del activep x con la posizione del mouse x
@@ -178,6 +210,12 @@ public class GamePanel extends JPanel implements Runnable {
         activeP.col = activeP.getCol(activeP.x);    /*aggioranamento della colonna*/
 
         activeP.row = activeP.getRow(activeP.y);    /*aggiornamento della riga*/
+
+        /*verifica se il giocatore sta con il pezzo su un quadrato valido per il tipo di pezzo che ha selezionato*/
+        if(activeP.canMove(activeP.col, activeP.row)){
+            canMove = true;
+            validSquare = true;
+        }
 
     }
 
@@ -203,16 +241,19 @@ public class GamePanel extends JPanel implements Runnable {
         /*condizione per andare a colorare il quadrato nuovo che si sta scegliendo con un colore bianco trasparente
         da far capire la selezione*/
         if(activeP != null){
-            /*impostiamo il colore a bianco*/
-            g2.setColor(Color.white);
-            /*impostazione della trasparenza a 0.7*/
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f));
+            if(canMove){
+                /*impostiamo il colore a bianco*/
+                g2.setColor(Color.white);
+                /*impostazione della trasparenza a 0.7*/
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f));
             /*uso del metodo fill rectangle e passando come parametri la colonna del pezzo attivo moltiplicato per la
              grandezza del quadrato e lo stesso per la riga, mentre per le dimesioni si passa soltanto gli atributo
              square size della classa board che sono equivalenti a 100 pixel*/
-            g2.fillRect(activeP.col * Board.SQUARE_SIZE, activeP.row * Board.SQUARE_SIZE, Board.SQUARE_SIZE, Board.SQUARE_SIZE);
-            /*reset della trasparenza*/
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+                g2.fillRect(activeP.col * Board.SQUARE_SIZE, activeP.row * Board.SQUARE_SIZE, Board.SQUARE_SIZE, Board.SQUARE_SIZE);
+                /*reset della trasparenza*/
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+            }
+
             /*alla fine inseriamo il metodo draw per poter vedere effettivamente sullo schermo l effetto di
             selezione, se lo avessimo messo prima di tutti i settaggi non avremmo visto nulla */
             activeP.draw(g2);
